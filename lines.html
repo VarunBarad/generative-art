@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generative - Lines</title>
+
+    <link rel="stylesheet" type="text/css" href="lines.css">
+</head>
+<body onload="draw();">
+<canvas id="canvas" width="1400" height="1400"></canvas>
+
+<script type="text/javascript">
+  const draw = () => {
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    context.strokeStyle = '#000000';
+    context.strokeWidth = '2px';
+
+    context.beginPath();
+    context.moveTo(150, 150);
+    context.lineTo(1250, 150);
+    context.lineTo(1250, 1250);
+    context.lineTo(150, 1250);
+    context.lineTo(150, 150);
+    context.stroke();
+
+    context.strokeWidth = '1px';
+    context.beginPath();
+
+    for (let y = 0; y < 20; y++) {
+      for (let x = 0; x < 20; x++) {
+        const num = Math.random() * 10;
+
+        if (num < 5) {
+          context.moveTo((4 + x) * 50, (4 + y) * 50);
+          context.lineTo((5 + x) * 50, (5 + y) * 50);
+        } else {
+          context.moveTo((5 + x) * 50, (4 + y) * 50);
+          context.lineTo((4 + x) * 50, (5 + y) * 50);
+        }
+      }
+    }
+
+    context.stroke();
+  };
+</script>
+</body>
+</html>
