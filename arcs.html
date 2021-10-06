@@ -30,19 +30,33 @@
     const arcRadius = 25;
     for (let y = 0; y < 20; y++) {
       for (let x = 0; x < 20; x++) {
-        const num = Math.random() * 20;
-
-        context.beginPath();
-        if (num < 5) {
+        const shouldDrawNorthWest = (Math.random() * 10) < 5;
+        if (shouldDrawNorthWest) {
+          context.beginPath();
           context.arc((4 + x) * 50, (4 + y) * 50, arcRadius, 0, Math.PI / 2);
-        } else if (num < 10) {
-          context.arc((5 + x) * 50, (4 + y) * 50, arcRadius, Math.PI / 2, Math.PI);
-        } else if (num < 15) {
-          context.arc((5 + x) * 50, (5 + y) * 50, arcRadius, Math.PI, (3 * Math.PI) / 2);
-        } else {
-          context.arc((4 + x) * 50, (5 + y) * 50, arcRadius, (3 * Math.PI) / 2, 0);
+          context.stroke();
         }
-        context.stroke();
+
+        const shouldDrawNorthEast = (Math.random() * 10) < 5;
+        if (shouldDrawNorthEast) {
+          context.beginPath();
+          context.arc((5 + x) * 50, (4 + y) * 50, arcRadius, Math.PI / 2, Math.PI);
+          context.stroke();
+        }
+
+        const shouldDrawSouthEast = (Math.random() * 10) < 5;
+        if (shouldDrawSouthEast) {
+          context.beginPath();
+          context.arc((5 + x) * 50, (5 + y) * 50, arcRadius, Math.PI, (3 * Math.PI) / 2);
+          context.stroke();
+        }
+
+        const shouldDrawSouthWest = (Math.random() * 10) < 5;
+        if (shouldDrawSouthWest) {
+          context.beginPath();
+          context.arc((4 + x) * 50, (5 + y) * 50, arcRadius, (3 * Math.PI) / 2, 0);
+          context.stroke();
+        }
       }
     }
   };
