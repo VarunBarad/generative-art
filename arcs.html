@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generative - Lines</title>
+
+    <link href="arcs.css" rel="stylesheet" type="text/css">
+</head>
+<body onload="draw();">
+<canvas height="1400" id="canvas" width="1400"></canvas>
+
+<script type="text/javascript">
+  const draw = () => {
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    context.strokeStyle = '#000000';
+    context.strokeWidth = '2px';
+
+    context.beginPath();
+    context.moveTo(150, 150);
+    context.lineTo(1250, 150);
+    context.lineTo(1250, 1250);
+    context.lineTo(150, 1250);
+    context.lineTo(150, 150);
+    context.stroke();
+
+    context.strokeWidth = '1px';
+
+    const arcRadius = 25;
+    for (let y = 0; y < 20; y++) {
+      for (let x = 0; x < 20; x++) {
+        const num = Math.random() * 20;
+
+        context.beginPath();
+        if (num < 5) {
+          context.arc((4 + x) * 50, (4 + y) * 50, arcRadius, 0, Math.PI / 2);
+        } else if (num < 10) {
+          context.arc((5 + x) * 50, (4 + y) * 50, arcRadius, Math.PI / 2, Math.PI);
+        } else if (num < 15) {
+          context.arc((5 + x) * 50, (5 + y) * 50, arcRadius, Math.PI, (3 * Math.PI) / 2);
+        } else {
+          context.arc((4 + x) * 50, (5 + y) * 50, arcRadius, (3 * Math.PI) / 2, 0);
+        }
+        context.stroke();
+      }
+    }
+  };
+</script>
+</body>
+</html>
