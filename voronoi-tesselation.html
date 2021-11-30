@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generative - Lines</title>
+
+    <link href="voronoi-tesselation.css" rel="stylesheet" type="text/css">
+</head>
+<body onload="draw();">
+<canvas height="1400" id="canvas" width="1400"></canvas>
+
+<script type="text/javascript">
+  const palette1 = [
+    "#ee6055",
+    "#60d394",
+    "#ffd97d",
+    "#3993dd",
+    "#504136",
+    "#156064",
+    "#732c2c",
+    "#003e1f",
+    "#282f44",
+    "#3b1c32",
+  ];
+  const palette2 = [
+    "#f94144",
+    "#f3722c",
+    "#f8961e",
+    "#f9844a",
+    "#f9c74f",
+    "#90be6d",
+    "#43aa8b",
+    "#4d908e",
+    "#577590",
+    "#277da1",
+  ];
+
+  const colors = palette2;
+
+  const draw = () => {
+    const height = 1000;
+    const width = 1000;
+    const offset = {
+      x: 200,
+      y: 200,
+    };
+
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    const numberOfPoints = 16;
+    const anchors = [];
+    for (let i = 0; i < numberOfPoints; i++) {
+      anchors.push(
+        {
+          x: Math.floor(Math.random() * width) + offset.x,
+          y: Math.floor(Math.random() * height) + offset.y,
+          color: colors[i % colors.length],
+        }
+      );
+    }
+
+    context.strokeStyle = '#000000';
+    context.strokeWidth = '2px';
+
+    context.beginPath();
+    context.moveTo(150, 150);
+    context.lineTo(1250, 150);
+    context.lineTo(1250, 1250);
+    context.lineTo(150, 1250);
+    context.lineTo(150, 150);
+    context.stroke();
+
+    for (let y = 0; y < 1000; y++) {
+      for (let x = 0; x < 1000; x++) {
+        const point = {
+          'x': x + 200,
+          'y': y + 200,
+        };
+        const anchor = closestAnchor(point, anchors);
+        context.fillStyle = anchor.color;
+        context.fillRect(point.x, point.y, 1, 1);
+      }
+    }
+  };
+
+  const closestAnchor = (point, anchors) => {
+    const distances = anchors.map(anchor => {
+      return {
+        distance: distanceBetweenPoints(anchor, point),
+        anchor: anchor,
+      };
+    }).sort((d1, d2) => d1.distance - d2.distance);
+
+    return distances[0];
+  };
+
+  const distanceBetweenPoints = (p1, p2) => {
+    return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
+  };
+</script>
+</body>
+</html>
