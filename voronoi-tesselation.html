@@ -87,16 +87,16 @@
   const closestAnchor = (point, anchors) => {
     const distances = anchors.map(anchor => {
       return {
-        distance: distanceBetweenPoints(anchor, point),
+        distance: squaredDistanceBetweenPoints(anchor, point),
         anchor: anchor,
       };
     }).sort((d1, d2) => d1.distance - d2.distance);
 
-    return distances[0];
+    return distances[0].anchor;
   };
 
-  const distanceBetweenPoints = (p1, p2) => {
-    return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
+  const squaredDistanceBetweenPoints = (p1, p2) => {
+    return Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2);
   };
 </script>
 </body>
