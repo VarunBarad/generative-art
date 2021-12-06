@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generative - Lines</title>
+
+    <link href="poisson-disc.css" rel="stylesheet" type="text/css">
+</head>
+<body onload="draw();">
+<canvas height="1400" id="canvas" width="1400"></canvas>
+
+<script type="text/javascript">
+  const dotColor = "#f94144";
+
+  const draw = () => {
+    const width = 1050;
+    const height = 1050;
+    const offset = {
+      x: 175,
+      y: 175,
+    };
+    const minimumDistance = 20;
+
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    const anchors = generateAnchors(width, height, offset, minimumDistance);
+
+    context.strokeStyle = '#000000';
+    context.strokeWidth = '2px';
+
+    context.beginPath();
+    context.moveTo(150, 150);
+    context.lineTo(1250, 150);
+    context.lineTo(1250, 1250);
+    context.lineTo(150, 1250);
+    context.lineTo(150, 150);
+    context.stroke();
+
+    context.fillStyle = dotColor;
+    anchors.forEach(anchor => context.fillRect(anchor.x, anchor.y, 3, 3));
+  };
+
+  const squaredDistanceBetweenPoints = (p1, p2) => {
+    return Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2);
+  };
+
+  const generateAnchors = (width, height, offset, minimumDistance) => {
+    const squaredMinimumDistance = minimumDistance * minimumDistance;
+
+    const finalAnchors = [];
+    const anchorCandidates = [];
+
+    finalAnchors.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+    });
+    anchorCandidates.push(...generateAnchorCandidates(
+      finalAnchors[finalAnchors.length - 1],
+      {
+        minimum: minimumDistance,
+        maximum: minimumDistance * 2,
+      },
+      {
+        width: width,
+        height: height,
+      },
+    ));
+
+    do {
+      const candidate = anchorCandidates.shift();
+      let isValidAnchor = true;
+      for (const anchor of finalAnchors) {
+        if (squaredDistanceBetweenPoints(candidate, anchor) < squaredMinimumDistance) {
+          isValidAnchor = false;
+          break;
+        }
+      }
+
+      if (isValidAnchor) {
+        finalAnchors.push(candidate);
+        anchorCandidates.push(...generateAnchorCandidates(
+          finalAnchors[finalAnchors.length - 1],
+          {
+            minimum: minimumDistance,
+            maximum: minimumDistance * 2,
+          },
+          {
+            width: width,
+            height: height,
+          },
+        ));
+      }
+    } while (anchorCandidates.length > 0);
+
+    return finalAnchors.map((anchor) => {
+      return {
+        x: anchor.x + offset.x,
+        y: anchor.y + offset.y,
+      };
+    });
+  };
+
+  const generateAnchorCandidates = (sourcePoint, distance, bounds) => {
+    const candidates = [];
+    for (let i = 0; i < 25; i++) {
+      candidates.push(randomPointAtCertainDistanceFromGivenPoint(sourcePoint, distance, bounds));
+    }
+    return candidates;
+  };
+
+  const randomPointAtCertainDistanceFromGivenPoint = (sourcePoint, distance, bounds) => {
+    const angle = Math.random() * (2 * Math.PI);
+    const actualDistance = distance.minimum + (Math.random() * (distance.maximum - distance.minimum));
+    const point = {
+      x: (actualDistance * Math.cos(angle)) + sourcePoint.x,
+      y: (actualDistance * Math.sin(angle)) + sourcePoint.y,
+    };
+
+    const isPointInHorizontalBounds = (point.x > 0) && (point.x < bounds.width);
+    const isPointInVerticalBounds = (point.y > 0) && (point.y < bounds.height);
+
+    if (isPointInHorizontalBounds && isPointInVerticalBounds) {
+      return point;
+    } else {
+      return randomPointAtCertainDistanceFromGivenPoint(sourcePoint, distance, bounds);
+    }
+  };
+</script>
+</body>
+</html>
