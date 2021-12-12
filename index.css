@@ -1,0 +1,143 @@
+html {
+    background-color: #222831;
+    color: #eeeeee;
+}
+
+a {
+    color: #00bd56;
+}
+
+a:visited {
+    color: #ffd369;
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: #222831;
+        color: #eeeeee;
+    }
+
+    a {
+        color: #00bd56;
+    }
+
+    a:visited {
+        color: #ffd369;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    html {
+        background-color: #dddddd00;
+        color: #222831;
+    }
+
+    a {
+        color: #1f6cb0;
+    }
+
+    a:visited {
+        color: #f05454;
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 24px;
+    font-family: sans-serif;
+}
+
+main {
+    min-height: 0;
+    min-width: 0;
+}
+
+#content {
+    padding: 16px;
+}
+
+.button, footer {
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .button, footer {
+        width: 100%;
+    }
+
+    .button {
+        margin: 8px 0 8px 0;
+    }
+}
+
+@media (min-width: 901px) {
+    .button, footer {
+        width: 33vw;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .button {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+/* Button */
+
+a.button {
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 4px;
+    position: relative;
+    font-variant: small-caps;
+    font-weight: bold;
+
+    color: #222831;
+    background-color: #00bd56;
+    box-shadow: 0 4px 0 #006733;
+}
+
+a:hover.button {
+    cursor: pointer;
+
+    background-color: #009945;
+}
+
+a:active.button {
+    box-shadow: none;
+    top: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+    a.button {
+        color: #222831;
+        background-color: #00bd56;
+        box-shadow: 0 4px 0 #006733;
+    }
+
+    a:hover.button {
+        background-color: #009945;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    a.button {
+        color: #eeeeee;
+        background-color: #f05454;
+        box-shadow: 0 4px 0 #803232;
+    }
+
+    a:hover.button {
+        background-color: #c04343;
+    }
+}
